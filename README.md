@@ -1,15 +1,17 @@
 # unicef
 
 make a file called params.py in the unicef/unicef directory with the
-path to the root and data like this
+path to the root and data with lines like this
 
 root_dir = "/Users/davej/TW/unicef"
+
 data_dir = "/Users/davej/TW/unicef/data"
 
 Get the .xlsx file and put it into the data directory
 (Note I had to convert from .xsl to .xlsx and changed the name slightly)
 
 Install openpyxl if it is not already installed
+
 https://openpyxl.readthedocs.org/en/latest/
 
 
