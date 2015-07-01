@@ -34,7 +34,7 @@ def get_table_from_mics_file(table_name):
     return sheet.columns
 
 
-def parse_mics_breastfeeding(print_data=False, print_headers=False, debug=False):
+def parse_mics_breastfeeding(print_data=False, print_headers=False):
     table = get_table_from_mics_file('breastfeeding')
     primary_rows = table[0]
     secondary_rows = table[1]
@@ -96,22 +96,7 @@ def parse_mics_breastfeeding(print_data=False, print_headers=False, debug=False)
                 data[primary_row][secondary_row][primary_col][secondary_col] = value
                 if print_data:
                     print "%s, %s, %s, %s, value: %s" % (primary_row, secondary_row, primary_col, secondary_col, value)
-            else:
-                print "cell has no data"
 
-            if debug:
-
-                print 'column: %s, cell_num: %s' % (column_num, cell_num+1)
-
-                stuff = (primary_row_this, secondary_row, primary_col_this, secondary_col, value)
-                print 'Stuff : %s, %s, %s, %s, %s' % stuff
-
-                stuff = (primary_row, secondary_row, primary_col, secondary_col, value)
-                print 'Stuff : %s, %s, %s, %s, %s' % stuff
-
-                ans = raw_input('ok?')
-                if ans == 'q':
-                    return data
         primary_row = ''
 
     return data
