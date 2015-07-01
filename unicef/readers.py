@@ -4,6 +4,7 @@ from collections import defaultdict
 
 line = '-----------------------------'
 
+
 def file_names(name=None):
     files = {
         'mics': "%s/03_NU_NutritionBangladeshMICS5_converted.xlsx" % data_dir
@@ -33,7 +34,7 @@ def get_table_from_mics_file(table_name):
     return sheet.columns
 
 
-def parse_mics_breastfeeding(print_data=False, print_headers=False):
+def parse_mics_breastfeeding(print_data=False, print_headers=False, debug=False):
     table = get_table_from_mics_file('breastfeeding')
     primary_rows = table[0]
     secondary_rows = table[1]
@@ -66,12 +67,10 @@ def parse_mics_breastfeeding(print_data=False, print_headers=False):
     d4 = lambda: defaultdict(d3)
     data = d4()
 
-    for column_num, column in enumerate(table):
-        primary_row = ''
-        secondary_row = ''
-        primary_col = ''
-        secondary_col = ''
+    primary_row = ''
+    primary_col = ''
 
+    for column_num, column in enumerate(table):
         for cell_num, cell in enumerate(column):
             value = cell.value
 
@@ -79,21 +78,40 @@ def parse_mics_breastfeeding(print_data=False, print_headers=False):
             if primary_row_this:
                 primary_row = primary_row_this
 
-            secondary_row_this = secondary_rows[cell_num].value.strip()
-            if secondary_row_this:
-                secondary_row = secondary_row_this
+            secondary_row = secondary_rows[cell_num].value.strip()
+            if primary_row == 'Total':
+                # special case this since it really has no second level
+                secondary_row = 'Total'
 
             primary_col_this = primary_columns[column_num].value.strip()
+
             if primary_col_this:
                 primary_col = primary_col_this
 
-            secondary_col_this = secondary_columns[column_num].value.strip()
-            if secondary_col_this:
-                secondary_col = secondary_col_this
+            secondary_col = secondary_columns[column_num].value.strip()
 
-            if primary_row and secondary_row and primary_col and secondary_col:
+            cell_has_data = primary_row and secondary_row and primary_col and secondary_col
+
+            if cell_has_data:
                 data[primary_row][secondary_row][primary_col][secondary_col] = value
                 if print_data:
                     print "%s, %s, %s, %s, value: %s" % (primary_row, secondary_row, primary_col, secondary_col, value)
+            else:
+                print "cell has no data"
+
+            if debug:
+
+                print 'column: %s, cell_num: %s' % (column_num, cell_num+1)
+
+                stuff = (primary_row_this, secondary_row, primary_col_this, secondary_col, value)
+                print 'Stuff : %s, %s, %s, %s, %s' % stuff
+
+                stuff = (primary_row, secondary_row, primary_col, secondary_col, value)
+                print 'Stuff : %s, %s, %s, %s, %s' % stuff
+
+                ans = raw_input('ok?')
+                if ans == 'q':
+                    return data
+        primary_row = ''
 
     return data
