@@ -1,0 +1,7 @@
+*.csv
+*.xls
+data/*
+*.pyc
+*~
+.idea/*
+unicef/params.py
