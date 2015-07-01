@@ -14,6 +14,9 @@ Install openpyxl if it is not already installed
 
 https://openpyxl.readthedocs.org/en/latest/
 
+To run tests using nose do (from root of the app):
+
+nosetests tests
 
 Example (run from the root of the app)
 
@@ -32,5 +35,4 @@ Percent exclusively breastfed [1]        55.9124910129
 Number of children                       973.916536295
 
 Percent predominantly breastfed [2]      70.3852203885
-
 
