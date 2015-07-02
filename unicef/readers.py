@@ -24,18 +24,22 @@ def read_mics(verbose=False):
         print line
         for sheet_name in sheet_names:
             print sheet_name
-
     return wb
 
 
-def get_table_from_mics_file(table_name):
+def get_sheet_from_mics_file(sheet_name):
     wb = read_mics()
-    sheet = wb.get_sheet_by_name(table_name)
+    sheet = wb.get_sheet_by_name(sheet_name)
+    return sheet
+
+
+def get_table_columns_from_mics_file(sheet_name):
+    sheet = get_sheet_from_mics_file(sheet_name)
     return sheet.columns
 
 
 def parse_mics_breastfeeding(print_data=False, print_headers=False):
-    table = get_table_from_mics_file('breastfeeding')
+    table = get_table_columns_from_mics_file('breastfeeding')
     primary_rows = table[0]
     secondary_rows = table[1]
     primary_columns = [column[0] for column in table]
@@ -100,3 +104,6 @@ def parse_mics_breastfeeding(print_data=False, print_headers=False):
         primary_row = ''
 
     return data
+
+
+
