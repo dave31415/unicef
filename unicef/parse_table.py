@@ -84,7 +84,6 @@ class HTable():
         if (row_start == row_end) and (column_start == column_end):
             #a final value, not another table
             final_value = self.table[column_start][row_start].value
-            print 'Final value: %s' % final_value
             return final_value
 
         # make a mutable version of the table (which is a tuple of tuples)
@@ -114,7 +113,6 @@ class HTable():
             row_end = self.row_lookup[row_name_this]['index_end']
             for row_index in xrange(row_start, row_end+1):
                 rows_to_keep.remove(row_index)
-
 
         sub_table = []
         for col in columns_to_keep:
