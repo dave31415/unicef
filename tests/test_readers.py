@@ -1,9 +1,9 @@
-from unicef import readers
+from unicef import parse_old
 
 
 def test_read_breast_feeding_values():
     tol = 1e-7
-    data = readers.parse_mics_breastfeeding()
+    data = parse_old.parse_mics_breastfeeding()
 
     value = data['Sex']['Male']['Children 12-15 months']['Percent breastfed (Continued breastfeeding at 1 year) [3]']
     expected = 95.76357893911755
@@ -26,9 +26,8 @@ def test_read_breast_feeding_values():
     assert data.keys() == expected_keys
 
 
-
 def test_read_breast_feeding_columns():
-    data = readers.parse_mics_breastfeeding()
+    data = parse_old.parse_mics_breastfeeding()
     keys = data['Sex']['Female']['Children 0-5 months'].keys()
     n_keys = len(keys)
     print keys
@@ -36,6 +35,6 @@ def test_read_breast_feeding_columns():
 
 
 def test_totals_totals():
-    data = readers.parse_mics_breastfeeding()
+    data = parse_old.parse_mics_breastfeeding()
     keys = data['Total']['Total'].keys()
     expected = [u'Children 12-15 months', u'Children 20-23 months', u'Children 0-5 months']

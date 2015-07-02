@@ -22,17 +22,49 @@ Example (run from the root of the app)
 
 from unicef import readers
 
-data=readers.parse_mics_breastfeeding()
+table = readers.get_table_columns_from_mics_file()
 
-male_newborns = data['Sex']['Male']['Children 0-5 months']
+from unicef import parse_table
 
-for k, v in male_newborns.iteritems(): print k.ljust(40),v
+ht = parse_table.HTable(table)
 
-The result should be...
+print ht.__class__
 
-Percent exclusively breastfed [1]        55.9124910129
+unicef.parse_table.HTable
 
-Number of children                       973.916536295
+print ht.row_names()
 
-Percent predominantly breastfed [2]      70.3852203885
+[u'Total', u'Sex', u'Division', u'Area', u"Mother's education", u'Wealth index quintile', u'Religion of household head']
+
+print ht.column_names()
+
+[u'Children 0-5 months', u'Children 12-15 months', u'Children 20-23 months']
+
+#Get a subtable
+
+ht2 = ht('Sex','Children 12-15 months')
+
+print ht.__class__
+
+unicef.parse_table.HTable
+
+print ht2.row_names()
+
+[u'Male', u'Female']
+
+print ht2.column_names()
+
+[u'Percent breastfed (Continued breastfeeding at 1 year) [3]', u'Number of children']
+
+#This gets a final value rather than another table
+
+print ht2('Male','Number of children')
+
+780.102085034
+
+
+
+
+
+
 

@@ -1,6 +1,5 @@
 from params import data_dir
 from openpyxl import load_workbook
-from collections import defaultdict
 
 line = '-----------------------------'
 

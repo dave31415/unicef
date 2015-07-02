@@ -1,3 +1,6 @@
+from readers import get_table_columns_from_mics_file
+from collections import defaultdict
+
 def parse_mics_breastfeeding(print_data=False, print_headers=False):
     table = get_table_columns_from_mics_file('breastfeeding')
     primary_rows = table[0]
