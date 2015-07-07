@@ -1,7 +1,15 @@
 from readers import get_table_columns_from_mics_file
 from collections import defaultdict
 
+
+#Process all MICS files in a directory. Assume they're xls files.
+def parse_mics_directory(directoryname='data'):
+
+    return dataset
+
+
 def parse_mics_breastfeeding(print_data=False, print_headers=False):
+    micsfile = "%s/03_NU_NutritionBangladeshMICS5_converted.xlsx" % data_dir
     table = get_table_columns_from_mics_file('breastfeeding')
     primary_rows = table[0]
     secondary_rows = table[1]
