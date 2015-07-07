@@ -5,7 +5,7 @@ import xlrd
 import glob
 import os
 
-line = '-----------------------------'
+LINE = '-----------------------------'
 
 
 def get_datafilenames(datadir='', fileextension='xls'):
@@ -14,13 +14,13 @@ def get_datafilenames(datadir='', fileextension='xls'):
 
 
 def get_workbook_from_file(filename, verbose=False):
-    print 'reading file: %s' % filename
+    print ('reading file: {}'.format(filename))
     wb = xlrd.open_workbook(filename)
     if verbose:
-        print '\n\tSheet names'
-        print line
+        print('\n\tSheet names')
+        print(LINE)
         for sheet_name in wb.sheet_names():
-            print sheet_name
+            print(sheet_name)
     return wb
 
 
@@ -48,6 +48,48 @@ def get_spss_tables_from_worksheet(sheet=None):
             tables += [table]
 
     return tables
+
+
+#Messy nasty function that needs replacing with something more elegant
+def get_rowlength(row):
+    i=0
+    for i in range(len(row)-1,-1,-1):
+        if row[i].value.strip() != '':
+            break
+    rowlength = i+1
+    return rowlength
+
+
+def get_clean_table(sheet, startrow, endrow):
+
+    table = {'tablename': sheet.cell_value(startrow,0)}
+
+    #Find top, bottom and sides of excel table
+    #SPSS tables start with " " and "" in top left-hand corner
+    #Would normally look for  merged cell to get size of headers, but xlrd giving []  for these
+    for firstrow in range(startrow+1,50):
+        if sheet.cell_value(firstrow,0).strip() != "":
+            break
+    numvtheaders = firstrow - startrow
+    for firstcol in range(0,len(sheet.row(startrow+1))):
+        if sheet.cell_value(startrow+1,firstcol).strip() != "":
+            break
+    numhzheaders = firstcol # -0
+    lastcol = 0
+    for lastrow in range(firstrow,endrow):
+        rowlength = get_rowlength(sheet.row(lastrow))
+        lastrow = max(rowlength, lastcol)
+        if rowlength <= 1:
+            break
+
+    #Add column headings to output dataset
+
+    #Add row headings to output dataset
+
+    #Convert hierarchical table into dataset
+
+
+    return table
 
 
 #Assumes that all excel files output by SPSS have 1 worksheet, with all tables containined in it
