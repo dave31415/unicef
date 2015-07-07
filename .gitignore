@@ -2,6 +2,7 @@
 *.xls
 data/*
 *.pyc
+*.pem
 *~
 .idea/*
 unicef/params.py
