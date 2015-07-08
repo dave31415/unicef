@@ -26,7 +26,7 @@ for datafilename in datafilenames:
 	for sheetname in wb.sheet_names():
 		sheet = readers.get_sheet_from_workbook(wb, sheetname)
 
-#Convert worksheets into mongodb tables
+#Convert worksheets into dict structures, and upload into mongodb
 indicatorname = sheet.cell_value(0,0)
 indicatorid = indicatorname[:indicatorname.find(" ")]
 
